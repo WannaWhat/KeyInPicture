@@ -8,10 +8,10 @@ class Picture():
 		if args.outPhoto:
 			self.WORDS = args.secretWord
 			self.OUTPHOTO = args.outPhoto
-			self.MODE = "code"
+			self.MODE = "Code"
 		else:
 			self.SECRETCODE = args.password.split(" ")
-			self.MODE = "decode"
+			self.MODE = "Decode"
 
 	def checkImg(self):
 		try:
@@ -86,7 +86,7 @@ class Picture():
 		self.checkImg()
 		self.cipherCoder()
 		self.createTrack()
-		print("Secret code: 0, ", len(self.track))
+		print("Secret code: 0 ", len(self.track))
 		self.getImg()
 		self.newImage()
 		self.drawNewPix()
