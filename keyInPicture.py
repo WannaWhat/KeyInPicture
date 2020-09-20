@@ -1,23 +1,26 @@
 from PIL import Image, ImageDraw
 import binascii
 import argparse
+import sys
+from random import randint
 
 class Picture():
 	def __init__(self, args):
 		self.FILE_NAME = args.inPhoto
 		if args.outPhoto:
-			self.WORDS = args.secretWord
+			self.WORDS = str(args.secretWord)
 			self.OUTPHOTO = args.outPhoto
 			self.MODE = "Code"
 		else:
-			self.SECRETCODE = args.password.split(" ")
+			self.SECRETCODE = str(args.password).split(" ")
 			self.MODE = "Decode"
+		print(self.MODE + " image")
 
 	def checkImg(self):
 		try:
 			open(self.FILE_NAME, "rb")
 		except:
-			print("Bad Picture!!!")
+			print("Bad Picture can't open!!!")
 			sys.exit(-2)
 
 	def cipherCoder(self, encoding='utf-8', errors='surrogatepass'):
@@ -29,6 +32,9 @@ class Picture():
 		self.track = []
 		for i in self.binary_string:
 			self.track.append(int(i))
+		if len(self.track) > self.SIZE[0] * self.SIZE[1]:
+			print("Your message to big for this picture. \nSorry")
+			sys.exit(-1)
 
 	def getImg(self):
 		self.originIMG = Image.open(self.FILE_NAME)
@@ -52,23 +58,32 @@ class Picture():
 
 	def drawNewPix(self):
 		messChecker = 0
+		start_poz = 0
+		go_flag = False
+		self.start_checker = randint(0, self.SIZE[0] * self.SIZE[1] - len(self.track) - 1)
 		for x in range(1, self.SIZE[0]):
 			for y in range(1, self.SIZE[1]):
 				pix = []
 				for poz in range(3):
-					if messChecker < len(self.track): 
-						if self.NEWPIX[x, y][poz] % 2 != self.track[messChecker]:
-							if self.NEWPIX[x, y][poz] == 255:
-								pix.append(self.NEWPIX[x, y][poz] - 1)
+					if start_poz == self.start_checker:
+						go_flag = True
+					if go_flag: 
+						if messChecker < len(self.track):
+							if self.NEWPIX[x, y][poz] % 2 != self.track[messChecker]:
+								if self.NEWPIX[x, y][poz] == 255:
+									pix.append(self.NEWPIX[x, y][poz] - 1)
+								else:
+									pix.append(self.NEWPIX[x, y][poz] + 1)
 							else:
-								pix.append(self.NEWPIX[x, y][poz] + 1)
+								pix.append(self.NEWPIX[x, y][poz])
+							messChecker += 1
 						else:
-							pix.append(self.NEWPIX[x, y][poz])
+							go_flag == False
 					else:
 						pix.append(self.NEWPIX[x, y][poz])
-					messChecker += 1
 				self.DRAW.point((x, y), (pix[0], pix[1], pix[2]))
-		self.NEWIGM.save("exmpl.png")
+		print(self.OUTPHOTO)
+		self.NEWIGM.save(self.OUTPHOTO + ".png")
 
 	def newImage(self):
 		self.NEWIGM = Image.new("RGB", self.SIZE)
@@ -84,12 +99,12 @@ class Picture():
 
 	def crypt(self):
 		self.checkImg()
+		self.getImg()
 		self.cipherCoder()
 		self.createTrack()
-		print("Secret code: 0 ", len(self.track))
-		self.getImg()
 		self.newImage()
 		self.drawNewPix()
+		print("Secret code: ", self.start_checker, " ", str(self.start_checker + len(self.track)))
 
 	def uncrypt(self):
 		self.checkImg()
@@ -97,13 +112,12 @@ class Picture():
 		self.decodeTrack()
 
 	def main(self):
-		if self.MODE == "code":
-			print("code")
+		if self.MODE == "Code":
 			self.crypt()
 
-		elif self.MODE == "decode":
-			print("decode")
+		elif self.MODE == "Decode":
 			self.uncrypt()
+
 
 
 

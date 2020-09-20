@@ -26,7 +26,7 @@
 
 ### For crypt photo:
 	
-	python keyInPicture.py [path to original photo] -o [path to output photo] -s [message for crypt]
+	python keyInPicture.py [path to original photo] -o [name of output photo] -s [message for crypt]
 
 #### Output:
 
