@@ -1,10 +1,14 @@
-from PIL import Image, ImageDraw
-from colorama import Fore, Back, Style
 import binascii
 import argparse
 import sys
 from random import randint
 
+try:
+	from PIL import Image, ImageDraw
+	from colorama import Fore, Back, Style
+except:
+	print("You don't have libraries\n Please try: pip install -r requirements.txt")
+	
 class Picture():
 	def __init__(self, args):
 		self.FILE_NAME = args.inPhoto
