@@ -78,9 +78,11 @@ class Picture():
 								pix.append(self.NEWPIX[x, y][poz])
 							messChecker += 1
 						else:
+							pix.append(self.NEWPIX[x, y][poz])
 							go_flag == False
 					else:
 						pix.append(self.NEWPIX[x, y][poz])
+					start_poz += 1 
 				self.DRAW.point((x, y), (pix[0], pix[1], pix[2]))
 		print(self.OUTPHOTO)
 		self.NEWIGM.save(self.OUTPHOTO + ".png")

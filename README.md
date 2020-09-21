@@ -25,7 +25,9 @@
 		-p PASSWORD    Password for decode
 
 ### For crypt photo:
-	
+	```diff
+	- ORIGINAL PHOTO MUST BE IN .jpeg FORMAT
+	```
 	python keyInPicture.py [path to original photo] -o [name of output photo] -s [message for crypt]
 
 #### Output:
