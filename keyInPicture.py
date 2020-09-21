@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw
+from colorama import Fore, Back, Style
 import binascii
 import argparse
 import sys
@@ -131,6 +132,6 @@ if __name__ == "__main__":
 	parser.add_argument('-s', action = "store", dest = "secretWord", help = "Message for crypt")
 	parser.add_argument('-p', action = "store", dest = "password", help = "Password for decode")
 	args = parser.parse_args()
-
+	print(Fore.GREEN + Back.WHITE +"Created by wannaWhat \n GitHub: https://github.com/WannaWhat \n Telegram: @wannaWhat \n Mail: wannaWhat@tutanota.com" + Style.RESET_ALL)
 	pic = Picture(args)
 	pic.main()

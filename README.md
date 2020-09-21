@@ -1,5 +1,6 @@
 # KeyInPicture
 
+That script can crypt message in the picture. You can decrypt picture only if you have secret code.
 
 ## Installing:
 
